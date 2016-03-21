@@ -502,7 +502,7 @@ def grdRegridder(grdin=None,grdout=None,grdintype='t',grdouttype='t'):
     yout = eval('grdout.gphi' + grdouttype)
     return stdRegridder(xin=xin,yin=yin,xout=xout,yout=yout)
 
-#====================== Carsening ======================================
+#====================== Coarsening ======================================
 
 def boxcar_factor_test(array2D,icrs=3,jcrs=3):
     """Test whether the shape of array2D is suited to coarsening with icrs,jcrs
