@@ -190,7 +190,7 @@ def get_ktuples(klines):
            out.append((kval,kstr))
        return out
 
-def plot_spectrum(pspec,kstep,**kwargs):
+def plot_spectrum(pspec,kstep,fig=None,**kwargs):
     """Create a png file with the plot.
     Note : kstep is given in rad/m but we plot cycle/km.
     """
