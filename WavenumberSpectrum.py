@@ -200,25 +200,25 @@ def plot_spectrum(pspec,kstep,**kwargs):
     if title is None:
        title = default_title(**kwargs)
     rad2cyc = 1.E3 / npy.pi / 2.  # CHECK ME : 2 pi or pi ?  
-    kstep*= rad2cyc # kstep is given in rad/m but we plot cycle/km
+    _kstep = kstep * rad2cyc # kstep is given in rad/m but we plot cycle/km
     if fig is None:
-    	fig  = plt.figure()
-    	ax = plt.subplot(1,1,1)
+        fig  = plt.figure()
+        ax = plt.subplot(1,1,1)
     # plot power density spectrum
     y_min = 10 ** npy.floor(npy.log10(pspec.min())-1)
     y_max = 10 ** npy.ceil( npy.log10(pspec.max())+1)
-    plt.plot(kstep[1:], pspec[1:],'go-', lw=3, label=varname)
+    plt.plot(_kstep[1:], pspec[1:],'go-', lw=3, label=varname)
     # plotting lines for estimating slopes
     ktuples  = get_ktuples(klines)
     for ktuple in ktuples:
         kval,kstr = ktuple
-	lk = len(kstep)
-	plt.plot(kstep[lk/20:2*lk/3], 0.1*y_max*(2*kstep[lk/20:2*lk/3]/kstep[lk/20])**(kval), 'k', lw=1.5, label=r'$k^{'+kstr+'}$')
+	lk = len(_kstep)
+	plt.plot(_kstep[lk/20:2*lk/3], 0.1*y_max*(2*_kstep[lk/20:2*lk/3]/_kstep[lk/20])**(kval), 'k', lw=1.5, label=r'$k^{'+kstr+'}$')
     if kfit:
         kstepmin = km2kstep(klmin)
 	kstepmax = km2kstep(klmax)
-        kstep_r = kstep[(kstep<kstepmin)*(kstep>kstepmax)]
-        pspec_r = pspec[(kstep<kstepmin)*(kstep>kstepmax)]
+        kstep_r = _kstep[(_kstep<kstepmin)*(_kstep>kstepmax)]
+        pspec_r = pspec[(_kstep<kstepmin)*(_kstep>kstepmax)]
 	kval = estimate_slope(pspec_r,kstep_r)
 	kstr = "{:1.1f}".format(kval)
         mpspc = pspec_r.max()
