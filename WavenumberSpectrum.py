@@ -201,8 +201,9 @@ def plot_spectrum(pspec,kstep,**kwargs):
        title = default_title(**kwargs)
     rad2cyc = 1.E3 / npy.pi / 2.  # CHECK ME : 2 pi or pi ?  
     kstep*= rad2cyc # kstep is given in rad/m but we plot cycle/km
-    fig  = plt.figure()
-    ax = plt.subplot(1,1,1)
+    if fig is None:
+    	fig  = plt.figure()
+    	ax = plt.subplot(1,1,1)
     # plot power density spectrum
     y_min = 10 ** npy.floor(npy.log10(pspec.min())-1)
     y_max = 10 ** npy.ceil( npy.log10(pspec.max())+1)
