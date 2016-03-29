@@ -502,7 +502,7 @@ def grdRegridder(grdin=None,grdout=None,grdintype='t',grdouttype='t'):
     yout = eval('grdout.gphi' + grdouttype)
     return stdRegridder(xin=xin,yin=yin,xout=xout,yout=yout)
 
-#====================== Coarsening ======================================
+#====================== Carsening ======================================
 
 def boxcar_factor_test(array2D,icrs=3,jcrs=3):
     """Test whether the shape of array2D is suited to coarsening with icrs,jcrs
@@ -578,8 +578,8 @@ class grdCoarsener:
         # indices
         jpj,jpi = self.fine_shape
         jcrs, icrs = crs_factor, crs_factor
-        jsize = jpj - (jpj - y_offset) % jcrs - y_offset
-        isize = jpi - (jpi - x_offset) % icrs - x_offset
+        jsize = jpj - (jpj - y_offset) % jcrs #- y_offset
+        isize = jpi - (jpi - x_offset) % icrs #- x_offset
         self.crs_shape = ( isize / jcrs , isize / icrs )
         self.cut_array = lambda array2D:array2D[...,y_offset:jsize,x_offset:isize]
         self.weights = self.cut_array(self.fine_grid.t_surf)
@@ -591,22 +591,16 @@ class grdCoarsener:
         bxc = lambda a:boxcar_sum(a,icrs=self.crs_factor,jcrs=self.crs_factor) 
         return bxc(cut_array2D * self.weights) / self.crs_area
         
-    def return_ravel(self,array2D,weighted=True):
+    def return_ravel(self,array2D):
         cut_array2D = self.cut_array(array2D)
         rvl = lambda a:boxcar_ravel(a,icrs=self.crs_factor,jcrs=self.crs_factor)
-	if weighted:
-           return rvl(cut_array2D*self.weights) / self.crs_area * self.crs_factor**2
-        else:
-           return rvl(cut_array2D)
+        return rvl(cut_array2D)
 
-    def return_deep_ravel(self,array2D,weighted=True):
+    def return_deep_ravel(self,array2D):
         # invers with reshape(array2D.shape)
         cut_array2D = self.cut_array(array2D)
         rvl = lambda a:boxcar_deep_ravel(a,icrs=self.crs_factor,jcrs=self.crs_factor)
-        if weighted:
-           return rvl(cut_array2D*self.weights) / self.crs_area * self.crs_factor**2
-        else:
-           return rvl(cut_array2D)
+        return rvl(cut_array2D)
 
 
 #====================== Coriolis ===========================================
