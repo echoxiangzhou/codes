@@ -1,0 +1,12 @@
+
+*.sh~
+
+*.py~
+
+install_simple_modules~
+
+*.md~
+
+update_lib~
+
+*.swp
